@@ -26,6 +26,8 @@ public class BCP {
         this.nomePrograma = nomePrograma;
     }
 
+
+
     public int getContadorDePrograma() {
         return contadorDePrograma;
     }
@@ -69,6 +71,9 @@ public class BCP {
 
         this.estadoProcesso = estadoProcesso;
     }
+
+
+    
     public void setRegistradorX(int registradorX) { this.registradorX = registradorX; }
     public void setRegistradorY(int registradorY) { this.registradorY = registradorY; }
 }

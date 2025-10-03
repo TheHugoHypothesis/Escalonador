@@ -6,7 +6,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class ProgramLoader {
+    
     public BCP carregarPrograma(String pathPrograma) {
         ArrayList<String> codigo = new ArrayList<>();
         try {
@@ -23,6 +25,7 @@ public class ProgramLoader {
             return null;
         }
     }
+
     public int carregarQuantum(String pathQuantum) {
         int tamanhoQuantum = 0;
         try {
@@ -35,4 +38,5 @@ public class ProgramLoader {
         }
         return tamanhoQuantum;
     }
+
 }

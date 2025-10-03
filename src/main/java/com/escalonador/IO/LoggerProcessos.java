@@ -46,6 +46,9 @@ public class LoggerProcessos {
                         + " Y=" + processo.getRegistradorY()
         );
     }
+
+
+    
     public void escreveDiagnostico(float mediaTrocas, float mediaInstrucoes, int quantum) {
         escreverLinha("MEDIA DE TROCAS: " + mediaTrocas);
         escreverLinha("MEDIA DE INSTRUCOES: " + mediaInstrucoes);
