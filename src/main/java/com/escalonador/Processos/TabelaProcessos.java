@@ -27,4 +27,8 @@ public class TabelaProcessos {
     }
 
 
+    public void bloequear(BCP bcp) {
+
+
+    }
 }
