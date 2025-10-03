@@ -2,6 +2,8 @@ package com.escalonador;
 
 import com.escalonador.IO.LoggerProcessos;
 import com.escalonador.IO.ProgramLoader;
+import com.escalonador.Kernel.Dispatcher;
+import com.escalonador.Kernel.Escalonador;
 import com.escalonador.Processos.BCP;
 import com.escalonador.Processos.TabelaProcessos;
 
@@ -24,37 +26,64 @@ public class Main {
             );
         }
 
+        
+
         /* Mostra o tamanho do Quantum e os processos carregados. */
         System.out.println(tamanhoQuantum);
         System.out.println(tabelaProcessos.getProcessos());
+
+
 
         /* Carrega os processos em ordem */
         for (BCP processo : tabelaProcessos.getProcessos()) {
             loggerProcessos.carregaProcesso(processo);
         }
 
+
+
+        
+        Escalonador escalonador = new Escalonador();
+
+
+
+
+
+
         /* Executa os programas em lote (batch) */
         for (BCP processo : tabelaProcessos.getProcessos()) {
             for (String linhaDeCodigo : processo.getCodigo()) {
+ 
                 if (linhaDeCodigo.contains("X")) {
                     String[] partes = linhaDeCodigo.split("=");
                     int valorRegX = Integer.parseInt(partes[1].trim());
                     processo.setRegistradorX(valorRegX);
                 }
+ 
                 if (linhaDeCodigo.contains("Y")) {
                     String[] partes = linhaDeCodigo.split("=");
                     int valorRegY = Integer.parseInt(partes[1].trim());
                     processo.setRegistradorY(valorRegY);
                 }
+ 
                 if (linhaDeCodigo.equals("E/S")) {
                     loggerProcessos.ESProcesso(processo);
                 }
+ 
                 if (linhaDeCodigo.equals("SAIDA")) {
                     loggerProcessos.terminaProcesso(processo);
                 }
             }
         }
 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
         loggerProcessos.fechar();
     }
 }
