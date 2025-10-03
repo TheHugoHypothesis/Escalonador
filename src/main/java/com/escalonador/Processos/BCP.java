@@ -50,13 +50,19 @@ public class BCP {
     }
     public void setEstadoProcesso(EstadoProcesso estadoProcesso) {
         if (this.estadoProcesso.equals(estadoProcesso)) {
-            System.out.println("O estado do processo: " + this.toString() + " foi alterado para o estado em que já estava: " + getEstadoProcesso());
+            System.out.println("O estado do processo: " + getNomePrograma() + " foi alterado para o estado em que já estava: " + getEstadoProcesso());
             System.exit(1);
             return;
         }
 
         if (getEstadoProcesso().equals(EstadoProcesso.BLOQUEADO) && estadoProcesso.equals(EstadoProcesso.EXECUTANDO)) {
-            System.out.println("O processo com BCP: " + this.toString() + " tentou mudar de BLOQUEADO para EXECUTANDO.");
+            System.out.println("O processo com BCP: " + getNomePrograma() + " tentou mudar de BLOQUEADO para EXECUTANDO.");
+            System.exit(1);
+            return;
+        }
+
+        if(getEstadoProcesso().equals(EstadoProcesso.PRONTO) && estadoProcesso.equals(EstadoProcesso.BLOQUEADO)) {
+            System.out.println("O processo com BCP: " + getNomePrograma() + " tentou mudar de PRONTO para BLOQUEADO.");
             System.exit(1);
             return;
         }
