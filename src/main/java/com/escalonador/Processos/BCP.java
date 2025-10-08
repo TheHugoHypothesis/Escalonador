@@ -14,6 +14,7 @@ public class BCP {
     private int registradorY;
     private final ArrayList<String> codigo;
     private final String nomePrograma;
+    private int tempoEspera;
 
     public BCP(ArrayList<String> codigo, String nomePrograma) {
         this.contadorDePrograma = 0;
@@ -22,6 +23,7 @@ public class BCP {
         /* Os registradores são iniciados como 0 pois "Se o programa não usar uma das variáveis, ela será zero." pag 5 */
         this.registradorX = 0;
         this.registradorY = 0;
+        this.tempoEspera = 0;
         this.estadoProcesso = EstadoProcesso.PRONTO;
         this.nomePrograma = nomePrograma;
     }

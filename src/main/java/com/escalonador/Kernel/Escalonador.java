@@ -6,6 +6,7 @@ import com.escalonador.Processos.EstadoProcesso;
 import com.escalonador.Processos.TabelaProcessos;
 
 public class Escalonador {
+
     private Dispatcher dispatcher;
     private int quantum;
     private TabelaProcessos tabelaProcessos;
@@ -22,30 +23,44 @@ public class Escalonador {
 
 
     public void iniciar(){
-        for (BCP processo : tabelaProcessos.getProcessos_prontos()) {
-            
-            for (int i = 0; i < quantum; i++){
+
+
+        while (!tabelaProcessos.getProcessos().isEmpty()) {
                 
-                if(dispatcher.Rodar(processo) == DispatcherFeedback.ES){
-                    tabelaProcessos.excluiProcessos_prontos(processo); //Exclui processo terminados (Retornaram FEITO)
-                    break;
+            if(!tabelaProcessos.getProcessos_prontos().isEmpty()){
+
+                BCP processo = tabelaProcessos.getProcessos_prontos().poll();
+                //Tem que Mudar estado para executando
+
+                for (int i = 0; i < quantum; i++){
+                    
+                    if(dispatcher.Rodar(processo) == DispatcherFeedback.ES){
+                        //Exclui processo terminados (Retornaram FEITO)
+
+                        //FALTA tratar ES
+                        processo.
+                        tabelaProcessos.getProcessos_bloqueados().add(processo);
+                        break;
+                    }
+
+                    if(dispatcher.Rodar(processo) == DispatcherFeedback.NADA){
+                        if(i == quantum-1) tabelaProcessos.getProcessos_prontos().add(processo);
+                        continue;
+                    }
 
 
-
-                if(dispatcher.Rodar(processo) == DispatcherFeedback.NADA){
-                    tabelaProcessos.excluiProcessos_prontos(processo); //Exclui processo terminados (Retornaram FEITO)
-                    continue;
-
-
-
-                if(dispatcher.Rodar(processo) == DispatcherFeedback.FEITO){
-                    tabelaProcessos.excluiProcessos_prontos(processo); //Exclui processo terminados (Retornaram FEITO)
-                    break;
-
-
-
+                    if(dispatcher.Rodar(processo) == DispatcherFeedback.FEITO){
+                        //Exclui processo terminados (Retornaram FEITO)
+                        tabelaProcessos.excluProcessos(processo);
+                        break;
+                    }
                 }
             }
+
+
+            tempoEsperaBloqueados();
+            
+        
         }
     }
 

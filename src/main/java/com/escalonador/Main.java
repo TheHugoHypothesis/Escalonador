@@ -20,23 +20,24 @@ public class Main {
         for (int i = 1; i < 11; i++) {
             String formatado = String.format("%02d", i);
             System.out.println("Carregando programa: " + formatado + ".txt");
-            tabelaProcessos.adicionaProcessos_prontos(
+            tabelaProcessos.adicionaProcessos(
                     programLoader.carregarPrograma("programas/" + formatado + ".txt")
+                    
             );
         }
 
-        
+
+        /* Carrega os processos em ordem pronta */
+        for (BCP processo : tabelaProcessos.getProcessos()) {
+            loggerProcessos.carregaProcesso(processo);
+            tabelaProcessos.adicionaProcessos_prontos(processo);
+        }
+
 
         /* Mostra o tamanho do Quantum e os processos carregados. */
         System.out.println(tamanhoQuantum);
         System.out.println(tabelaProcessos.getProcessos_prontos());
 
-
-
-        /* Carrega os processos em ordem */
-        for (BCP processo : tabelaProcessos.getProcessos_prontos()) {
-            loggerProcessos.carregaProcesso(processo);
-        }
 
 
         Escalonador escalonador = new Escalonador(tamanhoQuantum, tabelaProcessos, loggerProcessos);
