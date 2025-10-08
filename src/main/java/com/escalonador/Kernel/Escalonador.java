@@ -58,9 +58,18 @@ public class Escalonador {
             }
 
 
-            tempoEsperaBloqueados();
+            diminuiTempoEspera();
             
         
+        }
+    }
+
+	public void diminuiTempoEspera(){
+        for (BCP processo : tabelaProcessos.getProcessos_bloqueados()) {
+            processo.setTempoEspera(processo.getTempoEspera() - 1);
+            if(processo.getTempoEspera() == 0){
+                tabelaProcessos.ativaProcessos_bloqueados(processo);
+            }
         }
     }
 
