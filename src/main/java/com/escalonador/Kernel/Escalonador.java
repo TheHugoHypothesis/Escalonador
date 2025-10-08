@@ -26,13 +26,25 @@ public class Escalonador {
             
             for (int i = 0; i < quantum; i++){
                 
-                if(dispatcher.Rodar(processo) == true){
-                    tabelaProcessos.excluiProcessos_prontos(processo); //Exclui processo terminados (Retornaram TRUE)
+                if(dispatcher.Rodar(processo) == DispatcherFeedback.ES){
+                    tabelaProcessos.excluiProcessos_prontos(processo); //Exclui processo terminados (Retornaram FEITO)
                     break;
+
+
+
+                if(dispatcher.Rodar(processo) == DispatcherFeedback.NADA){
+                    tabelaProcessos.excluiProcessos_prontos(processo); //Exclui processo terminados (Retornaram FEITO)
+                    continue;
+
+
+
+                if(dispatcher.Rodar(processo) == DispatcherFeedback.FEITO){
+                    tabelaProcessos.excluiProcessos_prontos(processo); //Exclui processo terminados (Retornaram FEITO)
+                    break;
+
+
+
                 }
-
-                
-
             }
         }
     }
