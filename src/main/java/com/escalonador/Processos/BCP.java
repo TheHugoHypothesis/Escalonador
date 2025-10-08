@@ -49,6 +49,14 @@ public class BCP {
         return this.codigo;
     }
 
+    public int getTempoEspera() {
+        return tempoEspera;
+    }
+    
+    public void setTempoEspera(int tempoEspera) {
+        this.tempoEspera = tempoEspera;
+    }
+
     public void incrementarContadorDePrograma() {
         contadorDePrograma = contadorDePrograma + 1;
     }
