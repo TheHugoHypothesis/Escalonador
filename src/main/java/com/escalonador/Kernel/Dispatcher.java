@@ -7,6 +7,8 @@ import com.escalonador.Processos.EstadoProcesso;
 
 public class Dispatcher {
 
+    processo.setEstadoProcesso(EstadoProcesso.EXECUTANDO);
+    
     private LoggerProcessos loggerProcessos;
 
     public Dispatcher(LoggerProcessos log){
