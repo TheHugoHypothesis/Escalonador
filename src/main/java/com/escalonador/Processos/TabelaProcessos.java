@@ -53,6 +53,7 @@ public class TabelaProcessos {
         if (bcp != null && processos_bloqueados.contains(bcp)) {
             processos_bloqueados.remove(bcp);
             processos_prontos.add(bcp);
+            bcp.setEstadoProcesso(EstadoProcesso.PRONTO);
         }
     }
 
