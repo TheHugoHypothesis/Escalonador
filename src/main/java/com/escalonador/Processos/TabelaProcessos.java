@@ -37,9 +37,8 @@ public class TabelaProcessos {
 
     // tem que mudar o estado do processo antes de chamar essa função
     public void bloqueiaProcessos(BCP bcp, int tempoEspera) {
-        if (bcp != null && bcp.getEstadoProcesso() == EstadoProcesso.EXECUTANDO) {
+        if (bcp != null) {
             bcp.setTempoEspera(tempoEspera);
-            bcp.setEstadoProcesso(EstadoProcesso.BLOQUEADO);
             processos_bloqueados.add(bcp);
         }
     }

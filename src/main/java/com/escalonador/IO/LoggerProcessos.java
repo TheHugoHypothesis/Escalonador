@@ -34,7 +34,12 @@ public class LoggerProcessos {
         escreverLinha("Executando " + processo.getNomePrograma());
     }
     public void interrompeProcesso(BCP processo, int instrucoes) {
-        escreverLinha("Interrompendo " + processo.getNomePrograma() + " após " + instrucoes + " instruções");
+        if (instrucoes == 1) {
+            escreverLinha("Interrompendo " + processo.getNomePrograma() + " após " + instrucoes + " instrução");
+        } else {
+            escreverLinha("Interrompendo " + processo.getNomePrograma() + " após " + instrucoes + " instruções");
+        }
+
     }
     public void ESProcesso(BCP processo) {
         escreverLinha("E/S iniciada em " + processo.getNomePrograma());
@@ -50,8 +55,12 @@ public class LoggerProcessos {
 
     
     public void escreveDiagnostico(float mediaTrocas, float mediaInstrucoes, int quantum) {
-        escreverLinha("MEDIA DE TROCAS: " + mediaTrocas);
-        escreverLinha("MEDIA DE INSTRUCOES: " + mediaInstrucoes);
+        String mediaTrocasFormatada = String.format("%.4f", mediaTrocas);
+        escreverLinha("MEDIA DE TROCAS: " + mediaTrocasFormatada);
+
+        String mediaInstrucoesFormatada = String.format("%.4f", mediaInstrucoes);
+        escreverLinha("MEDIA DE INSTRUCOES: " + mediaInstrucoesFormatada);
+
         escreverLinha("QUANTUM: " + quantum);
     }
 

@@ -38,6 +38,8 @@ public class Main {
 
         Escalonador escalonador = new Escalonador(tamanhoQuantum, tabelaProcessos, loggerProcessos);
         escalonador.iniciar();
+
+        loggerProcessos.escreveDiagnostico(escalonador.numeroDeTrocas/10, escalonador.somaDeQuantumRodou / escalonador.numeroDeTrocas, tamanhoQuantum);
         loggerProcessos.fechar();
     }
 }

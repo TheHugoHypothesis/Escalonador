@@ -50,7 +50,6 @@ public class Dispatcher {
         }
 
         if (linhaDeCodigo.equals("SAIDA")) {
-            loggerProcessos.terminaProcesso(processo);
             return DispatcherFeedback.FEITO;
         }
 
