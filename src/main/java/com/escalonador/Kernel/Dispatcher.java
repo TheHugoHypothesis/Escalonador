@@ -5,8 +5,14 @@ import com.escalonador.Processos.BCP;
 import com.escalonador.Processos.EstadoProcesso;
 
 
+
+
+
 public class Dispatcher {
+
     
+
+
     private LoggerProcessos loggerProcessos;
 
     public Dispatcher(LoggerProcessos log){
@@ -27,7 +33,7 @@ public class Dispatcher {
         int Y = processo.getRegistradorY();
 
 
-        
+
         if (linhaDeCodigo.contains("X")) {
             String[] partes = linhaDeCodigo.split("=");
             int valorRegX = Integer.parseInt(partes[1].trim());

@@ -2,21 +2,25 @@ package com.escalonador.Kernel;
 
 import com.escalonador.IO.LoggerProcessos;
 import com.escalonador.Processos.BCP;
-import com.escalonador.Processos.EstadoProcesso;
 import com.escalonador.Processos.TabelaProcessos;
 
+
 public class Escalonador {
+
+
+    private static final int TEMPOBLOQUEIO = 2;
 
     private Dispatcher dispatcher;
     private int quantum;
     private TabelaProcessos tabelaProcessos;
-
+    private LoggerProcessos loggerProcessos;
 
     
 	public Escalonador(int quant, TabelaProcessos tabelaProcessos, LoggerProcessos loggerProcessos) {
 		this.dispatcher = new Dispatcher(loggerProcessos);
         this.quantum = quant;
         this.tabelaProcessos = tabelaProcessos;
+        this.loggerProcessos = loggerProcessos;
 	}
 
 
@@ -35,16 +39,17 @@ public class Escalonador {
                 for (int i = 0; i < quantum; i++){
                     
                     if(dispatcher.Rodar(processo) == DispatcherFeedback.ES){
-                        //Exclui processo terminados (Retornaram FEITO)
-
-                        //FALTA tratar ES
-                        processo.
-                        tabelaProcessos.getProcessos_bloqueados().add(processo);
+                        tabelaProcessos.bloqueiaProcessos(processo, TEMPOBLOQUEIO);                
+                        loggerProcessos.interrompeProcesso(processo,quantum);
                         break;
                     }
 
                     if(dispatcher.Rodar(processo) == DispatcherFeedback.NADA){
-                        if(i == quantum-1) tabelaProcessos.getProcessos_prontos().add(processo);
+                        if(i == quantum-1) {
+                            tabelaProcessos.getProcessos_prontos().add(processo);
+                            loggerProcessos.interrompeProcesso(processo,quantum);
+                        } 
+
                         continue;
                     }
 
