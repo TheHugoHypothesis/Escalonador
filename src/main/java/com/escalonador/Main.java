@@ -26,63 +26,18 @@ public class Main {
             );
         }
 
-
         /* Carrega os processos em ordem pronta */
         for (BCP processo : tabelaProcessos.getProcessos()) {
             loggerProcessos.carregaProcesso(processo);
             tabelaProcessos.adicionaProcessos_prontos(processo);
         }
 
-
         /* Mostra o tamanho do Quantum e os processos carregados. */
         System.out.println(tamanhoQuantum);
         System.out.println(tabelaProcessos.getProcessos_prontos());
 
-
-
         Escalonador escalonador = new Escalonador(tamanhoQuantum, tabelaProcessos, loggerProcessos);
         escalonador.iniciar();
-
-
-
-
-        /* Executa os programas em lote (batch) */
-
-
-
-
-
-/*         for (BCP processo : tabelaProcessos.getProcessos()) {
-            for (String linhaDeCodigo : processo.getCodigo()) {
- 
-
-                if (linhaDeCodigo.contains("X")) {
-                    String[] partes = linhaDeCodigo.split("=");
-                    int valorRegX = Integer.parseInt(partes[1].trim());
-                    processo.setRegistradorX(valorRegX);
-                }
- 
-                if (linhaDeCodigo.contains("Y")) {
-                    String[] partes = linhaDeCodigo.split("=");
-                    int valorRegY = Integer.parseInt(partes[1].trim());
-                    processo.setRegistradorY(valorRegY);
-                }
- 
-                if (linhaDeCodigo.equals("E/S")) {
-                    loggerProcessos.ESProcesso(processo);
-                }
- 
-                if (linhaDeCodigo.equals("SAIDA")) {
-                    loggerProcessos.terminaProcesso(processo);
-                }
-
-
-            }
-        }
- */
- 
- 
- 
         loggerProcessos.fechar();
     }
 }

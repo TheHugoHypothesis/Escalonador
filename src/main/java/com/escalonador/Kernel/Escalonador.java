@@ -6,15 +6,12 @@ import com.escalonador.Processos.TabelaProcessos;
 
 
 public class Escalonador {
-
-
     private static final int TEMPOBLOQUEIO = 2;
 
     private Dispatcher dispatcher;
     private int quantum;
     private TabelaProcessos tabelaProcessos;
     private LoggerProcessos loggerProcessos;
-
     
 	public Escalonador(int quant, TabelaProcessos tabelaProcessos, LoggerProcessos loggerProcessos) {
 		this.dispatcher = new Dispatcher(loggerProcessos);
@@ -23,40 +20,34 @@ public class Escalonador {
         this.loggerProcessos = loggerProcessos;
 	}
 
-
-
-
     public void iniciar(){
-
-
         while (!tabelaProcessos.getProcessos().isEmpty()) {
                 
             if(!tabelaProcessos.getProcessos_prontos().isEmpty()){
 
                 BCP processo = tabelaProcessos.getProcessos_prontos().poll();
-                //Tem que Mudar estado para executando
+                tabelaProcessos.executaProcesso(processo);
 
                 for (int i = 0; i < quantum; i++){
                     
                     if(dispatcher.Rodar(processo) == DispatcherFeedback.ES){
                         tabelaProcessos.bloqueiaProcessos(processo, TEMPOBLOQUEIO);                
-                        loggerProcessos.interrompeProcesso(processo,quantum);
+                        loggerProcessos.interrompeProcesso(processo, quantum);
                         break;
                     }
 
                     if(dispatcher.Rodar(processo) == DispatcherFeedback.NADA){
                         if(i == quantum-1) {
-                            tabelaProcessos.getProcessos_prontos().add(processo);
-                            loggerProcessos.interrompeProcesso(processo,quantum);
+                            tabelaProcessos.trocaExecucao(processo);
+                            loggerProcessos.interrompeProcesso(processo, quantum);
                         } 
 
                         continue;
                     }
 
-
                     if(dispatcher.Rodar(processo) == DispatcherFeedback.FEITO){
                         //Exclui processo terminados (Retornaram FEITO)
-                        tabelaProcessos.excluProcessos(processo);
+                        tabelaProcessos.excluiProcessos(processo);
                         break;
                     }
                 }
