@@ -7,13 +7,14 @@ import com.escalonador.Processos.EstadoProcesso;
 public class Dispatcher {
     private LoggerProcessos loggerProcessos;
 
-    public Dispatcher(LoggerProcessos log){
-        this.loggerProcessos = log;
-    }
+    public Dispatcher(LoggerProcessos log){ this.loggerProcessos = log; }
 
     //Retorna True se o processo terminou
     public DispatcherFeedback Rodar(BCP processo){
-        processo.setEstadoProcesso(EstadoProcesso.EXECUTANDO);
+        if (processo.getEstadoProcesso() != EstadoProcesso.EXECUTANDO) {
+            processo.setEstadoProcesso(EstadoProcesso.EXECUTANDO);
+        }
+
         String linhaDeCodigo = processo.getCodigo().get(processo.getContadorDePrograma());
 
         //Pegando o contexto (Simbolicamente, porque na pratica não será usado para nada)

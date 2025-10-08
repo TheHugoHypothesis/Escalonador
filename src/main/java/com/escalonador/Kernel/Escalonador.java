@@ -22,21 +22,20 @@ public class Escalonador {
 
     public void iniciar(){
         while (!tabelaProcessos.getProcessos().isEmpty()) {
-                
             if(!tabelaProcessos.getProcessos_prontos().isEmpty()){
 
                 BCP processo = tabelaProcessos.getProcessos_prontos().poll();
-                tabelaProcessos.executaProcesso(processo);
 
                 for (int i = 0; i < quantum; i++){
-                    
-                    if(dispatcher.Rodar(processo) == DispatcherFeedback.ES){
+                    DispatcherFeedback SaidaProcesso = dispatcher.Rodar(processo);
+
+                    if(SaidaProcesso == DispatcherFeedback.ES){
                         tabelaProcessos.bloqueiaProcessos(processo, TEMPOBLOQUEIO);                
                         loggerProcessos.interrompeProcesso(processo, quantum);
                         break;
                     }
 
-                    if(dispatcher.Rodar(processo) == DispatcherFeedback.NADA){
+                    if(SaidaProcesso == DispatcherFeedback.NADA){
                         if(i == quantum-1) {
                             tabelaProcessos.trocaExecucao(processo);
                             loggerProcessos.interrompeProcesso(processo, quantum);
@@ -45,7 +44,7 @@ public class Escalonador {
                         continue;
                     }
 
-                    if(dispatcher.Rodar(processo) == DispatcherFeedback.FEITO){
+                    if(SaidaProcesso == DispatcherFeedback.FEITO){
                         //Exclui processo terminados (Retornaram FEITO)
                         tabelaProcessos.excluiProcessos(processo);
                         break;
