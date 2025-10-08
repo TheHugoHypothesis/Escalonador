@@ -31,14 +31,14 @@ public class Escalonador {
 
                     if(SaidaProcesso == DispatcherFeedback.ES){
                         tabelaProcessos.bloqueiaProcessos(processo, TEMPOBLOQUEIO);                
-                        loggerProcessos.interrompeProcesso(processo, quantum);
+                        loggerProcessos.interrompeProcesso(processo, i+1);
                         break;
                     }
 
                     if(SaidaProcesso == DispatcherFeedback.NADA){
                         if(i == quantum-1) {
                             tabelaProcessos.trocaExecucao(processo);
-                            loggerProcessos.interrompeProcesso(processo, quantum);
+                            loggerProcessos.interrompeProcesso(processo, i+1);
                         } 
 
                         continue;
