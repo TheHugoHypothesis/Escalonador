@@ -22,6 +22,9 @@ public class Escalonador {
 
     public void iniciar(){
         while (!tabelaProcessos.getProcessos().isEmpty()) {
+
+            diminuiTempoEspera();
+
             if(!tabelaProcessos.getProcessos_prontos().isEmpty()){
 
                 BCP processo = tabelaProcessos.getProcessos_prontos().poll();
@@ -50,14 +53,11 @@ public class Escalonador {
                         break;
                     }
                 }
-            }
-
-
-            diminuiTempoEspera();
-            
-        
+            }        
         }
     }
+
+    
 
 	public void diminuiTempoEspera(){
         for (BCP processo : tabelaProcessos.getProcessos_bloqueados()) {

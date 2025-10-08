@@ -56,4 +56,5 @@ public class TabelaProcessos {
     public Queue<BCP> getProcessos_prontos() {return processos_prontos;}
     public List<BCP> getProcessos() {return processos;}
     public Queue<BCP> getProcessos_bloqueados() {return processos_bloqueados;}
+
 }
