@@ -66,7 +66,7 @@ public class Escalonador {
                         numeroDeTrocas++;
 
                         // REMOVER ISSO DEPOIS (NORTON?)
-                        loggerProcessos.interrompeProcesso(processo, i+1);
+                        //loggerProcessos.interrompeProcesso(processo, i+1);
                         loggerProcessos.terminaProcesso(processo);
 
                         break;
