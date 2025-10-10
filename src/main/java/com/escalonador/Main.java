@@ -7,39 +7,48 @@ import com.escalonador.Processos.BCP;
 import com.escalonador.Processos.TabelaProcessos;
 
 public class Main {
+    // Constantes para configuração do programa
+    public static int NUMERO_DE_PROGRAMAS = 10;
+    public static String PATH_QUANTUM = "programas/quantum.txt";
+    public static String PATH_PROGRAMAS = "programas/";
+
     public static void main(String[] args) {
         ProgramLoader programLoader = new ProgramLoader();
         TabelaProcessos tabelaProcessos = new TabelaProcessos();
 
+        // Carrega o LoggerProcessos, formatando a saída no formato de saída logXX.txt
         int tamanhoQuantum;
-        tamanhoQuantum = programLoader.carregarQuantum("programas/quantum.txt");
+        tamanhoQuantum = programLoader.carregarQuantum(PATH_QUANTUM);
         String tamanhoQuantumFormatado = String.format("%02d", tamanhoQuantum);
+        LoggerProcessos loggerProcessos = new LoggerProcessos(
+                PATH_PROGRAMAS + "log" + tamanhoQuantumFormatado + ".txt"
+        );
 
-        LoggerProcessos loggerProcessos = new LoggerProcessos("programas/" + "log" + tamanhoQuantumFormatado + ".txt");
-
-        for (int i = 1; i < 11; i++) {
+        // Carrega os programas na tabela de processo
+        for (int i = 1; i <= NUMERO_DE_PROGRAMAS; i++) {
             String formatado = String.format("%02d", i);
-            System.out.println("Carregando programa: " + formatado + ".txt");
             tabelaProcessos.adicionaProcessos(
-                    programLoader.carregarPrograma("programas/" + formatado + ".txt")
-                    
+                    programLoader.carregarPrograma(PATH_PROGRAMAS + formatado + ".txt")
             );
         }
 
-        /* Carrega os processos em ordem pronta */
+        // Faz logging do carregamento dos processos em ordem pronta
         for (BCP processo : tabelaProcessos.getProcessos()) {
             loggerProcessos.carregaProcesso(processo);
             tabelaProcessos.adicionaProcessos_prontos(processo);
         }
 
-        /* Mostra o tamanho do Quantum e os processos carregados. */
-        System.out.println(tamanhoQuantum);
-        System.out.println(tabelaProcessos.getProcessos_prontos());
-
         Escalonador escalonador = new Escalonador(tamanhoQuantum, tabelaProcessos, loggerProcessos);
         escalonador.iniciar();
 
-        loggerProcessos.escreveDiagnostico(escalonador.numeroDeTrocas/10, escalonador.somaDeQuantumRodou / escalonador.numeroDeTrocas, tamanhoQuantum);
+        // Escrita do logging do diagnóstico
+        loggerProcessos.escreveDiagnostico(
+                escalonador.numeroDeTrocas / NUMERO_DE_PROGRAMAS,
+                escalonador.somaDeQuantumRodou / escalonador.numeroDeTrocas,
+                tamanhoQuantum
+        );
+        //System.out.println("MTT: " + escalonador.TempoFinalizacaoSoma / NUMERO_DE_PROGRAMAS);
+
         loggerProcessos.fechar();
     }
 }

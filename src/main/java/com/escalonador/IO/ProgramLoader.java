@@ -6,9 +6,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/*
+ *
+ */
 public class ProgramLoader {
-    
     public BCP carregarPrograma(String pathPrograma) {
         ArrayList<String> codigo = new ArrayList<>();
         try {

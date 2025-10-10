@@ -5,8 +5,13 @@ import com.escalonador.Processos.BCP;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
 
-/* Corresponde a classe de saída de arquivos Logger */
+/*
+ * Essa é a classe que faz escrita em arquivo externo
+ * com formato padrão de saída. Recebe como entrada o path
+ * e escreve no arquivo usando BufferedWriter.
+ */
 public class LoggerProcessos {
     private BufferedWriter writer;
 
@@ -20,10 +25,11 @@ public class LoggerProcessos {
     }
 
     private void escreverLinha(String linha) {
+        /* Faz saída imediata do arquivo, útil para fazer logging parcialmente */
         try {
             writer.write(linha);
             writer.newLine();
-            writer.flush(); // escreve no arquivo imediatamente
+            writer.flush();
         } catch (IOException ignored) { }
     }
 
@@ -52,13 +58,12 @@ public class LoggerProcessos {
         );
     }
 
-
-    
     public void escreveDiagnostico(float mediaTrocas, float mediaInstrucoes, int quantum) {
-        String mediaTrocasFormatada = String.format("%.4f", mediaTrocas);
+        // Usa-se Locale.US para formatar com "." ao invés de ","
+        String mediaTrocasFormatada = String.format(Locale.US, "%.4f", mediaTrocas);
         escreverLinha("MEDIA DE TROCAS: " + mediaTrocasFormatada);
 
-        String mediaInstrucoesFormatada = String.format("%.4f", mediaInstrucoes);
+        String mediaInstrucoesFormatada = String.format(Locale.US,"%.4f", mediaInstrucoes);
         escreverLinha("MEDIA DE INSTRUCOES: " + mediaInstrucoesFormatada);
 
         escreverLinha("QUANTUM: " + quantum);

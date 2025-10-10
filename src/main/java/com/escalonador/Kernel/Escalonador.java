@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 
 public class Escalonador {
-    private static final int TEMPOBLOQUEIO = 2;
+    private static final int TEMPO_BLOQUEIO = 2;
 
     private Dispatcher dispatcher;
     private int quantum;
@@ -18,6 +18,8 @@ public class Escalonador {
 
     public float somaDeQuantumRodou;
     public float numeroDeTrocas;
+    public float TempoFinalizacaoSoma;
+    public int numeroInteracoes = 0;
 
 	public Escalonador(int quant, TabelaProcessos tabelaProcessos, LoggerProcessos loggerProcessos) {
 		this.dispatcher = new Dispatcher(loggerProcessos);
@@ -26,56 +28,61 @@ public class Escalonador {
         this.loggerProcessos = loggerProcessos;
 	}
 
-    public void iniciar(){
+    /* Metodo para rodar os processos dado ao Escalonador */
+    public void iniciar() {
         while (!tabelaProcessos.getProcessos().isEmpty()) {
-
             diminuiTempoEspera();
 
             if(!tabelaProcessos.getProcessos_prontos().isEmpty()){
-
                 BCP processo = tabelaProcessos.getProcessos_prontos().poll();
                 loggerProcessos.executaProcesso(processo);
 
-                for (int i = 0; i < quantum; i++){
+                for (int i = 0; i < quantum; i++) {
                     DispatcherFeedback SaidaProcesso = dispatcher.Rodar(processo);
 
-                    if(SaidaProcesso == DispatcherFeedback.ES){
-                        tabelaProcessos.bloqueiaProcessos(processo, TEMPOBLOQUEIO);                
+                    if (SaidaProcesso == DispatcherFeedback.ES) {
+                        /* Escalonador recebe feedback que processo pediu E/S. */
+                        tabelaProcessos.bloqueiaProcessos(processo, TEMPO_BLOQUEIO);
                         loggerProcessos.interrompeProcesso(processo, i+1);
                         somaDeQuantumRodou += i+1;
                         numeroDeTrocas++;
                         break;
                     }
 
-                    if(SaidaProcesso == DispatcherFeedback.NADA){
-                        if(i == quantum-1) {
+                    if (SaidaProcesso == DispatcherFeedback.NADA) {
+                        /* Escalonador verifica se é o último valor do quantum dado ao processo. */
+                        if (i == quantum - 1) {
                             tabelaProcessos.trocaExecucao(processo);
-                            loggerProcessos.interrompeProcesso(processo, i+1);
-                            somaDeQuantumRodou += i+1;
+                            loggerProcessos.interrompeProcesso(processo, i + 1);
+                            somaDeQuantumRodou += i + 1;
                             numeroDeTrocas++;
                         } 
 
                         continue;
                     }
 
-                    if(SaidaProcesso == DispatcherFeedback.FEITO){
-                        //Exclui processo terminados (Retornaram FEITO)
-
+                    if (SaidaProcesso == DispatcherFeedback.FEITO) {
+                        /* Escalonador verifica se está terminado. */
                         tabelaProcessos.excluiProcessos(processo);
-                        somaDeQuantumRodou += i+1;
+                        somaDeQuantumRodou += i + 1;
                         numeroDeTrocas++;
 
-                        // REMOVER ISSO DEPOIS (NORTON?)
-                        //loggerProcessos.interrompeProcesso(processo, i+1);
                         loggerProcessos.terminaProcesso(processo);
+                        TempoFinalizacaoSoma += numeroDeTrocas;
 
                         break;
                     }
+
+                    numeroInteracoes++;
                 }
             }        
         }
     }
 
+    /*
+    * Após cada ciclo de clock, essa função serve para diminuir o tempo
+    * rodado dos processos bloqueados.
+    *  */
 	public void diminuiTempoEspera() {
         Iterator<BCP> iterator = tabelaProcessos.getProcessos_bloqueados().iterator();
 
@@ -90,8 +97,4 @@ public class Escalonador {
             }
         }
     }
-
-	public Dispatcher getDispatcher() {
-		return dispatcher;
-	}
 }

@@ -10,32 +10,36 @@ public class TabelaProcessos {
     private Queue<BCP> processos_bloqueados = new LinkedList<>();
     private List<BCP> processos = new ArrayList<>();
 
-   public void adicionaProcessos(BCP bcp) {
+    /* Função de carregar processos novos. */
+    public void adicionaProcessos(BCP bcp) {
         if (bcp != null) {
             processos.add(bcp);
         }
-    }    
+    }
 
-   public void excluiProcessos(BCP bcp) {
+    /* Função de remover processos concluídos. */
+    public void excluiProcessos(BCP bcp) {
         if (bcp != null) {
             processos.remove(bcp);
         }
     }
 
+    /* Função de para adicionar processos a lista de prontos. */
     public void adicionaProcessos_prontos(BCP bcp) {
         if (bcp != null) {
             processos_prontos.add(bcp);
         }
     }
 
+    /* Troca a execução do processo atual para um novo, marcando-o como PRONTO. */
     public void trocaExecucao(BCP bcp) {
-       if (bcp != null && bcp.getEstadoProcesso() == EstadoProcesso.EXECUTANDO) {
-           bcp.setEstadoProcesso(EstadoProcesso.PRONTO);
-           processos_prontos.add(bcp);
-       }
+        if (bcp != null && bcp.getEstadoProcesso() == EstadoProcesso.EXECUTANDO) {
+            bcp.setEstadoProcesso(EstadoProcesso.PRONTO);
+            processos_prontos.add(bcp);
+        }
     }
 
-    // tem que mudar o estado do processo antes de chamar essa função
+    /* Bloqueia processo para E/S por um tempo de espera. */
     public void bloqueiaProcessos(BCP bcp, int tempoEspera) {
         if (bcp != null) {
             bcp.setTempoEspera(tempoEspera);
@@ -43,17 +47,7 @@ public class TabelaProcessos {
         }
     }
 
-    // tem que mudar o estado do processo antes de chamar essa função
-    public void ativaProcessos_bloqueados(BCP bcp) {
-        if (bcp != null && processos_bloqueados.contains(bcp)) {
-            bcp.setEstadoProcesso(EstadoProcesso.PRONTO);
-            processos_bloqueados.remove(bcp);
-            processos_prontos.add(bcp);
-        }
-    }
-
-    public Queue<BCP> getProcessos_prontos() {return processos_prontos;}
-    public List<BCP> getProcessos() {return processos;}
-    public Queue<BCP> getProcessos_bloqueados() {return processos_bloqueados;}
-
+    public Queue<BCP> getProcessos_prontos() { return processos_prontos; }
+    public List<BCP> getProcessos() { return processos; }
+    public Queue<BCP> getProcessos_bloqueados() { return processos_bloqueados; }
 }

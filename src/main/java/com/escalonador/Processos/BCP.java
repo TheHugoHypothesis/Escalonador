@@ -28,8 +28,6 @@ public class BCP {
         this.nomePrograma = nomePrograma;
     }
 
-
-
     public int getContadorDePrograma() {
         return contadorDePrograma;
     }
@@ -61,6 +59,7 @@ public class BCP {
         contadorDePrograma = contadorDePrograma + 1;
     }
     public void setEstadoProcesso(EstadoProcesso estadoProcesso) {
+        /* Verificações para ver se a troca de processos é válida. */
         if (this.estadoProcesso.equals(estadoProcesso)) {
             System.out.println("O estado do processo: " + getNomePrograma() + " foi alterado para o estado em que já estava: " + getEstadoProcesso());
             System.exit(1);
